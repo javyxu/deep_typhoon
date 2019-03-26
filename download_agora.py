@@ -15,7 +15,12 @@ def get_ty_links():
     tys = []
     ty_links = []
     for i in range(0, len(years)):
-        html = urllib2.urlopen(year_links[i]).read()
+        try:
+            html = urllib2.urlopen(year_links[i]).read()
+        except Exception as e:
+            print e
+            continue
+        
         soup = BeautifulSoup(html,"html.parser")
         row1 = soup.find_all(attrs={"class":"ROW1"})
         row0 = soup.find_all(attrs={"class":"ROW0"})
