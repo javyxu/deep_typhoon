@@ -7,7 +7,7 @@ def get_ty_links():
     
     years = []
     year_links = []
-    for i in range(1979, 2017):
+    for i in range(2016, 2017):
         years.append(str(i))
         year_links.append('http://agora.ex.nii.ac.jp/digital-typhoon/year/wnp/'+str(i)+'.html.en')
     print year_links
@@ -31,10 +31,11 @@ def get_ty_links():
             tys.append(years[i] + str(j))
             ty_links.append('http://agora.ex.nii.ac.jp/digital-typhoon/summary/wnp/k/'+\
                             years[i] + str(j) + '.html.en')
-
+    
+    print (tys, ty_links)
     return tys, ty_links
 
-def download_imgs(tys,ty_links):
+def download_imgs(tys, ty_links):
 
     print 'start download data'
     path_ = os.path.abspath('.')
@@ -45,17 +46,21 @@ def download_imgs(tys,ty_links):
     for i in range(0, len(ty_links)):
         print ty_links[i]
         html = urllib2.urlopen(ty_links[i]).read()
-        soup = BeautifulSoup(html,"html.parser")
+        soup = BeautifulSoup(html, "html.parser")
         a_list = soup.find_all('a')
+        print '================'
+        print a_list
         # all satellite images for every 6 hour
         for a in a_list:
-            if a.string != '\nImage':
+            if a.string != '\n\t\tImage':
                 continue
             
             image_link = 'http://agora.ex.nii.ac.jp/'+ a['href']
             html_new = urllib2.urlopen(image_link).read()
             soup_new = BeautifulSoup(html_new,"html.parser")
             tr_list = soup_new.find_all('tr')
+            print '================'
+            print tr_list
 
             boo = False
             wind = '0'
@@ -93,7 +98,7 @@ def download_imgs(tys,ty_links):
                 filename = rename(filename)
                 print root + filename
 
-                f = open(root+filename+'.jpg','wb')
+                f = open(root + filename + '.jpg', 'wb')
                 req = urllib2.urlopen(s)
                 buf = req.read()
                 f.write(buf)
@@ -115,4 +120,4 @@ def rename(fname): # there maybe some unexcepted char in fname, drop them
 if __name__ == '__main__':
 
     ts,links = get_ty_links()
-    download_imgs(ts,links)
+    download_imgs(ts, links)
