@@ -7,7 +7,7 @@ def get_ty_links():
     
     years = []
     year_links = []
-    for i in range(1979, 2017):
+    for i in range(2016, 2017):
         years.append(str(i))
         year_links.append('http://agora.ex.nii.ac.jp/digital-typhoon/year/wnp/'+str(i)+'.html.en')
     # print year_links
@@ -97,11 +97,11 @@ def download_imgs(tys, ty_links):
                 # s = pict_list[0].replace('/g/', '/nhc/')
                 # s = pict_list[0]
                 s = pict_list[0].replace('/g/', '/1/')
-                print s
+                # print s
                 # filename : typhoon-number_time(YYMMDDHH)_wind_pressure.jpg
                 filename = tys[i] + '_' + s[len(s)-19:len(s)-11] + '_' + wind + '_' + pressure
                 filename = rename(filename)
-                # print root + filename
+                print filename
                 if os.path.exists(filename):
                     continue
 
