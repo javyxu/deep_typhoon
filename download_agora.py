@@ -35,7 +35,6 @@ def get_ty_links():
     return tys, ty_links
 
 def download_imgs(tys, ty_links):
-
     print 'start download data'
     path_ = os.path.abspath('.')
     root = path_ + '/tys_raw/'
@@ -44,7 +43,12 @@ def download_imgs(tys, ty_links):
 
     for i in range(0, len(ty_links)):
         # print ty_links[i]
-        html = urllib2.urlopen(ty_links[i]).read()
+        try:
+            html = urllib2.urlopen(ty_links[i]).read()
+        except Exception as e:
+            print e
+            continue
+        
         soup = BeautifulSoup(html, "html.parser")
         a_list = soup.find_all('a')
         # print '================'
@@ -62,6 +66,7 @@ def download_imgs(tys, ty_links):
                 # print '================'
                 # print tr_list
             except Exception as e:
+                print e
                 continue
 
             boo = False
