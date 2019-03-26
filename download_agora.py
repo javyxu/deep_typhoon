@@ -7,7 +7,7 @@ def get_ty_links():
     
     years = []
     year_links = []
-    for i in range(2016, 2017):
+    for i in range(1979, 2017):
         years.append(str(i))
         year_links.append('http://agora.ex.nii.ac.jp/digital-typhoon/year/wnp/'+str(i)+'.html.en')
     print year_links
