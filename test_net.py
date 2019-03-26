@@ -12,19 +12,19 @@ if __name__ == '__main__':
     path_ = os.path.abspath('.')
 
     net = Net() 
-    net.load_state_dict(torch.load(path_+'/net_relu.pth')) # your net
+    net.load_state_dict(torch.load(path_ + '/net_relu.pth')) # your net
 
-    testset = ImageFolder(path_+'/test_set/',transform) # your test set
+    testset = ImageFolder(path_ + '/test_set/', transform) # your test set
 
-    f = open(path_+'/result_relu.txt','w') # where to write answer
+    f = open(path_ + '/result_relu.txt','w') # where to write answer
 
     tys = {} # map typhoon to its max wind
     tys_time = {} # map typhoon-time to wind
 
-    for i in range(0,testset.__len__()):
+    for i in range(0, testset.__len__()):
         
         image, actual = testset.__getitem__(i)
-        image = image.expand(1,image.size(0),image.size(1),image.size(2)) # a batch with 1 sample
+        image = image.expand(1, image.size(0), image.size(1), image.size(2)) # a batch with 1 sample
         name = testset.__getitemName__(i)
         
         output = net(Variable(image))
@@ -39,17 +39,17 @@ if __name__ == '__main__':
         else :
             tys[tid] = wind
             
-        tid_time = name[0]+'_'+name[1]+'_'+name[2]+'_'+name[3]
+        tid_time = name[0] + '_' + name[1] + '_' + name[2] + '_' + name[3]
         tys_time[tid_time] = wind
         
         if i % 100 == 99 :
 	    print 'have processed ',i+1,' samples.'
 
-    tys = sorted(tys.iteritems(),key=lambda asd:asd[1],reverse=True)
+    tys = sorted(tys.iteritems(),key=lambda asd:asd[1], reverse=True)
     for ty in tys:
         print ty # show the sort of typhoons' wind
 
-    tys_time = sorted(tys_time.iteritems(),key=lambda asd:asd[0],reverse=False)
+    tys_time = sorted(tys_time.iteritems(), key=lambda asd:asd[0], reverse=False)
     for ty in tys_time:
         f.write(str(ty)+'\n') # record all result by time
     f.close()

@@ -33,7 +33,7 @@ def default_loader(path):
 
 
 def default_transform(target):
-    wind = target.split('_')[2]
+    wind = target.split('_')[4]
     return float(wind)
 
 class ImageFolder(data.Dataset):
@@ -63,8 +63,8 @@ class ImageFolder(data.Dataset):
         return img, target
     
     def __getitemName__(self, index):
-	_, fname = self.imgs[index]
-	return fname.split('.')[0]
+        _, fname = self.imgs[index]
+        return fname.split('.')[0]
 
     def __len__(self):
         return len(self.imgs)
