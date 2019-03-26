@@ -31,7 +31,7 @@ def get_ty_links():
             ty_links.append('http://agora.ex.nii.ac.jp/digital-typhoon/summary/wnp/k/'+\
                             years[i] + str(j) + '.html.en')
     
-    print (tys, ty_links)
+    # print (tys, ty_links)
     return tys, ty_links
 
 def download_imgs(tys, ty_links):
