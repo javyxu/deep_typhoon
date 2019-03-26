@@ -36,12 +36,14 @@ def get_ty_links():
 
 def download_imgs(tys,ty_links):
 
+    print 'start download data'
     path_ = os.path.abspath('.')
     root = path_ + '/tys_raw/'
     if not os.path.exists(root):
         os.mkdir(root)
 
     for i in range(0, len(ty_links)):
+        print ty_links[i]
         html = urllib2.urlopen(ty_links[i]).read()
         soup = BeautifulSoup(html,"html.parser")
         a_list = soup.find_all('a')
