@@ -54,12 +54,15 @@ def download_imgs(tys, ty_links):
             if (str(a.string)).strip() != 'Image':
                 continue
             
-            image_link = 'http://agora.ex.nii.ac.jp/'+ a['href']
-            html_new = urllib2.urlopen(image_link).read()
-            soup_new = BeautifulSoup(html_new,"html.parser")
-            tr_list = soup_new.find_all('tr')
-            # print '================'
-            # print tr_list
+            try:
+                image_link = 'http://agora.ex.nii.ac.jp/'+ a['href']
+                html_new = urllib2.urlopen(image_link).read()
+                soup_new = BeautifulSoup(html_new,"html.parser")
+                tr_list = soup_new.find_all('tr')
+                # print '================'
+                # print tr_list
+            except Exception as e:
+                continue
 
             boo = False
             wind = '0'
@@ -80,6 +83,20 @@ def download_imgs(tys, ty_links):
                     tr_next = tr.next_sibling.next_sibling
                     pressure = str(re.findall(r'\d+',tr_next.string))
                     # print pressure
+
+            lat = None
+            for tr in tr_list:
+                if (str(tr.string)).strip() == 'Latitude':
+                    tr_next = tr.next_sibling.next_sibling
+                    lat = str(re.findall(r'\d+',tr_next.string))
+                    # print lat
+            
+            lon = None
+            for tr in tr_list:
+                if (str(tr.string)).strip() == 'Longitude':
+                    tr_next = tr.next_sibling.next_sibling
+                    lon = str(re.findall(r'\d+',tr_next.string))
+                    # print lon
             
             pict_list = []
             anew_list = soup_new.find_all('a')
@@ -99,7 +116,7 @@ def download_imgs(tys, ty_links):
                 s = pict_list[0].replace('/g/', '/1/')
                 # print s
                 # filename : typhoon-number_time(YYMMDDHH)_wind_pressure.jpg
-                filename = tys[i] + '_' + s[len(s)-19:len(s)-11] + '_' + wind + '_' + pressure
+                filename = tys[i] + '_' + s[len(s)-19:len(s)-11] + '_' + lat + '_' + lon + '_' + wind + '_' + pressure
                 filename = rename(filename)
                 print filename
                 if os.path.exists(filename):
@@ -122,6 +139,7 @@ def rename(fname): # there maybe some unexcepted char in fname, drop them
     new_fname = new_fname.replace(']','')
     new_fname = new_fname.replace('u','')
     new_fname = new_fname.replace('\'','')
+    new_fname = new_fname.replace(', ', '.')
     return new_fname
 	    
 if __name__ == '__main__':
