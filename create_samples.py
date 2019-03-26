@@ -89,11 +89,11 @@ if __name__ == '__main__':
 
     train_root = path_ + '/train_set/'
     if not os.path.exists(train_root):
-	os.mkdir(train_root)
+        os.mkdir(train_root)
 	
     test_root = path_ + '/test_set/'
     if not os.path.exists(test_root):
-	os.mkdir(test_root)
+        os.mkdir(test_root)
 
     global count, oversample
     count = 0

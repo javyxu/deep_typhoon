@@ -7,38 +7,41 @@ def get_ty_links():
     
     years = []
     year_links = []
-    for i in range(1979,2017):
+    for i in range(1979, 2017):
         years.append(str(i))
         year_links.append('http://agora.ex.nii.ac.jp/digital-typhoon/year/wnp/'+str(i)+'.html.en')
+    print year_links
+    
 
     tys = []
     ty_links = []
-    for i in range(0,len(years)):
+    for i in range(0, len(years)):
         html = urllib2.urlopen(year_links[i]).read()
         soup = BeautifulSoup(html,"html.parser")
         row1 = soup.find_all(attrs={"class":"ROW1"})
         row0 = soup.find_all(attrs={"class":"ROW0"})
         # get all typhoon-page links
-        number = len(row1)+len(row0)
-        for j in range(1,10):
-            tys.append(years[i]+'0'+str(j))
+        number = len(row1) + len(row0)
+        print number
+        for j in range(1, 10):
+            tys.append(years[i] + '0' + str(j))
             ty_links.append('http://agora.ex.nii.ac.jp/digital-typhoon/summary/wnp/k/'+\
-                            years[i]+'0'+str(j)+'.html.en')
-        for j in range(10,number+1):
-            tys.append(years[i]+str(j))
+                            years[i] + '0'+str(j) + '.html.en')
+        for j in range(10, number+1):
+            tys.append(years[i] + str(j))
             ty_links.append('http://agora.ex.nii.ac.jp/digital-typhoon/summary/wnp/k/'+\
-                            years[i]+str(j)+'.html.en')
+                            years[i] + str(j) + '.html.en')
 
-    return tys,ty_links
+    return tys, ty_links
 
 def download_imgs(tys,ty_links):
 
     path_ = os.path.abspath('.')
     root = path_ + '/tys_raw/'
     if not os.path.exists(root):
-	os.mkdir(root)
-    
-    for i in range(0,len(ty_links)):
+        os.mkdir(root)
+
+    for i in range(0, len(ty_links)):
         html = urllib2.urlopen(ty_links[i]).read()
         soup = BeautifulSoup(html,"html.parser")
         a_list = soup.find_all('a')
@@ -82,6 +85,7 @@ def download_imgs(tys,ty_links):
                 # filename : typhoon-number_time(YYMMDDHH)_wind_pressure.jpg
                 filename = tys[i]+'_'+s[len(s)-19:len(s)-11]+'_'+wind+'_'+pressure
                 filename = rename(filename)
+                print root + filename
 
                 f = open(root+filename+'.jpg','wb')
                 req = urllib2.urlopen(s)
@@ -90,9 +94,9 @@ def download_imgs(tys,ty_links):
                 f.close()
 
             except Exception as e:
-                print e
+                print(e)
 
-	print tys[i],'has been downloaded.'
+	print(tys[i],'has been downloaded.')
 
 def rename(fname): # there maybe some unexcepted char in fname, drop them
 
