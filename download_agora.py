@@ -66,6 +66,7 @@ def download_imgs(tys,ty_links):
                         boo = True
                         break
                     wind = str(re.findall(r'\d+',tr_next.string))
+                    print wind
             if boo: # 0kt should be excluded
                 continue
 
@@ -74,18 +75,21 @@ def download_imgs(tys,ty_links):
                 if tr.string == '\nCentral Pressure\n':
                     tr_next = tr.next_sibling.next_sibling
                     pressure = str(re.findall(r'\d+',tr_next.string))
+                    print pressure
             
             pict_list = []
             anew_list = soup_new.find_all('a')
             for anew in anew_list: # find ir images
                 if anew.string == 'Magnify this':
                     st = anew['href'].replace('/0/','/1/') # replace vis to ir
+                    print st
                     pict_list.append('http://agora.ex.nii.ac.jp'+ st)
+                    print pict_list
             
             try: # save images
                 s = pict_list[2]
                 # filename : typhoon-number_time(YYMMDDHH)_wind_pressure.jpg
-                filename = tys[i]+'_'+s[len(s)-19:len(s)-11]+'_'+wind+'_'+pressure
+                filename = tys[i] + '_' + s[len(s)-19:len(s)-11] + '_' + wind + '_' + pressure
                 filename = rename(filename)
                 print root + filename
 
