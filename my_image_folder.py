@@ -20,10 +20,10 @@ def make_dataset(dirt):
         return None
     for root, _, fnames in sorted(os.walk(dirt)):
         for fname in fnames:
-            if is_image_file(fname):
-                path = os.path.join(root, fname)
-                item = (path, fname)
-                images.append(item)
+            # if is_image_file(fname):
+            path = os.path.join(root, fname)
+            item = (path, fname)
+            images.append(item)
 
     return images
 
@@ -56,7 +56,7 @@ class ImageFolder(data.Dataset):
         path, target = self.imgs[index]
         img = self.loader(path)
         if self.transform is not None:
-            img = self.transform(img)
+            img = self.transform(img)[0:2]
         if self.target_transform is not None:
             target = self.target_transform(target)
 
@@ -64,7 +64,8 @@ class ImageFolder(data.Dataset):
     
     def __getitemName__(self, index):
         _, fname = self.imgs[index]
-        return fname.split('.')[0]
+        # return fname.split('.')[0]
+        return os.path.splitext(fname)[0]
 
     def __len__(self):
         return len(self.imgs)

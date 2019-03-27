@@ -28,10 +28,12 @@ if __name__ == '__main__':
 	
     path_ = os.path.abspath('.')
 
-    trainset = ImageFolder(path_ + '/train_set/', transform)
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=8,
-                                              shuffle=True, num_workers=2)
-    testset = ImageFolder(path_ + '/test_set/', transform)
+    trainset = ImageFolder(path_ + '/Work/srccode/deep_typhoon/train_set/', transform)
+
+    # trainloader = torch.utils.data.DataLoader(trainset, batch_size=8,
+    #                                           shuffle=True, num_workers=2)
+    trainloader = torch.utils.data.DataLoader(trainset)
+    testset = ImageFolder(path_ + '/Work/srccode/deep_typhoon/test_set/', transform)
 
     net = Net()
     init.xavier_uniform(net.conv1.weight.data, gain=1)
@@ -43,29 +45,28 @@ if __name__ == '__main__':
 
     criterion = nn.L1Loss()
 
-    optimizer = optim.Adam(net.parameters(),lr=0.001)
+    optimizer = optim.Adam(net.parameters(), lr=0.001)
 
     for epoch in range(10): #
-
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
-            inputs,labels = data
-            inputs,labels = Variable(inputs),Variable(labels)
+            inputs, labels = data
+            inputs, labels = Variable(inputs), Variable(labels)
 
             optimizer.zero_grad()
 
             outputs = net(inputs)   
-            loss = criterion(outputs,labels.float())
+            loss = criterion(outputs, labels.float())
             loss.backward()
             optimizer.step()
 
-            running_loss += loss.data[0]
+            running_loss += loss.data
             if i % 200 == 199:
-                print('[%d, %5d] loss: %.3f' % (epoch+1,i+1,running_loss/200))
+                print('[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 200))
                 running_loss = 0.0
     
 	test_loss = testset_loss(testset,net)
-	print('[%d ] test loss: %.3f' % (epoch+1,test_loss))
+	print('[%d ] test loss: %.3f' % (epoch + 1, test_loss))
 
     print('Finished Training')
-    torch.save(net.state_dict(),path_ + '/net_relu.pth')
+    torch.save(net.state_dict(), path_ + '/net_relu.pth')

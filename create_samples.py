@@ -71,9 +71,13 @@ def create_sample(source_dir, fname_1, fname_2, target_dir): # combine two raw i
 
     if not if_match(fname_1, fname_2):
         return 'Two images are not matched: ', fname_1, fname_2
-	    
-    img_1 = Image.open(complete_fname_1)
-    img_2 = Image.open(complete_fname_2)
+    
+    try:
+        img_1 = Image.open(complete_fname_1)
+        img_2 = Image.open(complete_fname_2)
+    except Exception as e:
+        print e
+        return None
     
     img_1 = cut_pics(img_1)
     img_2 = cut_pics(img_2)
@@ -108,16 +112,15 @@ if __name__ == '__main__':
 	    
 	    info = create_sample(root, fnames[i-1], fnames[i], train_root)
 	    if info:
-                print info
-                    
+            print info
             if count > 30000 :
                 print 'Exceed the upper limit of a single file.'
                 break
   
 	    if i % 100 == 99 :
-	        print 'have processed ',i+1,' files.'
+	        print 'have processed ', i + 1,' files.'
 	        
-	print 'items in train set: ',count
+	print 'items in train set: ', count
 	count = 0
 
 	for i in range(boundary, len(fnames)): # create test set
@@ -131,6 +134,6 @@ if __name__ == '__main__':
                 break
   
 	    if i % 100 == 99 :
-	        print 'have processed ',i+1,' files.'
+	        print 'have processed ', i + 1,' files.'
           
         print 'items in test set: ', count
