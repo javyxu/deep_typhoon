@@ -79,7 +79,7 @@ def create_sample(source_dir, fname_1, fname_2, target_dir): # combine two raw i
         img_1 = cut_pics(img_1)
         img_2 = cut_pics(img_2)
     except Exception as e:
-        print e
+        print(e)
         return None
     
     im = merge_pics(img_1, img_2)
@@ -111,29 +111,28 @@ if __name__ == '__main__':
         for i in range(1, boundary):# create train set
             info = create_sample(root, fnames[i-1], fnames[i], train_root)
             if info:
-                print info
+                print(info)
             
             if count > 30000:
-                print 'Exceed the upper limit of a single file.'
+                print('Exceed the upper limit of a single file.')
                 break
     
             if i % 100 == 99:
-                print 'have processed ', i + 1,' files.'
+                print('have processed ', i + 1,' files.')
                 
-        print 'items in train set: ', count
+        print('items in train set: ' + str(count))
         count = 0
 
         for i in range(boundary, len(fnames)): # create test set
-            
             info = create_sample(root, fnames[i - 1], fnames[i], test_root)
             if info:
-                print info
+                print(info)
                     
             if count > 30000:
-                print 'Exceed the upper limit of a single file.'
+                print('Exceed the upper limit of a single file.')
                 break
     
             if i % 100 == 99:
-                print 'have processed ', i + 1,' files.'
+                print('have processed ', i + 1,' files.')
           
-        print 'items in test set: ', count
+        print('items in test set: ' + str(count))

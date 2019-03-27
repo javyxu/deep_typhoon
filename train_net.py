@@ -16,7 +16,6 @@ def testset_loss(dataset, network):
 
     all_loss = 0.0
     for i, data in enumerate(loader, 0):
-
         inputs, labels = data
         inputs = Variable(inputs)
 
@@ -42,7 +41,7 @@ if __name__ == '__main__':
     init.xavier_uniform(net.conv2.weight.data, gain=1)
     init.constant(net.conv2.bias.data, 0.1)
     #net.load_state_dict(torch.load(path_+'net_relu.pth')) 
-    print net
+    print(net)
 
     criterion = nn.L1Loss()
 

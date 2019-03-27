@@ -18,8 +18,8 @@ if __name__ == '__main__':
 
     f = open(path_ + '/result_relu.txt','w') # where to write answer
 
-    tys = {} # map typhoon to its max wind
-    tys_time = {} # map typhoon-time to wind
+    tys = dict() # map typhoon to its max wind
+    tys_time = dict() # map typhoon-time to wind
 
     for i in range(0, testset.__len__()):
         
@@ -33,9 +33,8 @@ if __name__ == '__main__':
         name = name.split('_')
         
         tid = name[0]
-        if tys.has_key(tid):
-            if tys[tid] < wind:
-                tys[tid] = wind
+        if tid in tys.keys() and tys[tid] < wind:
+            tys[tid] = wind
         else :
             tys[tid] = wind
             
@@ -43,13 +42,13 @@ if __name__ == '__main__':
         tys_time[tid_time] = wind
         
         if i % 100 == 99 :
-	    print 'have processed ', i + 1, ' samples.'
+            print('have processed ' + str(i + 1) + ' samples.')
 
-    tys = sorted(tys.iteritems(), key=lambda asd:asd[1], reverse=True)
+    tys = sorted(tys.items(), key=lambda asd:asd[1], reverse=True)
     for ty in tys:
-        print ty # show the sort of typhoons' wind
+        print(ty) # show the sort of typhoons' wind
 
-    tys_time = sorted(tys_time.iteritems(), key=lambda asd:asd[0], reverse=False)
+    tys_time = sorted(tys_time.items(), key=lambda asd:asd[0], reverse=False)
     for ty in tys_time:
         f.write(str(ty) + '\n') # record all result by time
     f.close()
