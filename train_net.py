@@ -11,7 +11,8 @@ from my_image_folder import ImageFolder
 
 def testset_loss(dataset, network):
 
-    loader = torch.utils.data.DataLoader(dataset, batch_size=1, num_workers=2)
+    # loader = torch.utils.data.DataLoader(dataset, batch_size=1, num_workers=2)
+    loader = torch.utils.data.DataLoader(dataset)
 
     all_loss = 0.0
     for i, data in enumerate(loader, 0):
@@ -64,9 +65,9 @@ if __name__ == '__main__':
             if i % 200 == 199:
                 print('[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 200))
                 running_loss = 0.0
-    
-	test_loss = testset_loss(testset,net)
-	print('[%d ] test loss: %.3f' % (epoch + 1, test_loss))
+        
+        test_loss = testset_loss(testset, net)
+        print('[%d ] test loss: %.3f' % (epoch + 1, test_loss))
 
     print('Finished Training')
     torch.save(net.state_dict(), path_ + '/net_relu.pth')

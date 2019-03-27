@@ -14,7 +14,7 @@ if __name__ == '__main__':
     net = Net() 
     net.load_state_dict(torch.load(path_ + '/net_relu.pth')) # your net
 
-    testset = ImageFolder(path_ + '/test_set/', transform) # your test set
+    testset = ImageFolder(path_ + '/Work/srccode/deep_typhoon/test_set/', transform) # your test set
 
     f = open(path_ + '/result_relu.txt','w') # where to write answer
 
@@ -43,13 +43,13 @@ if __name__ == '__main__':
         tys_time[tid_time] = wind
         
         if i % 100 == 99 :
-	    print 'have processed ',i+1,' samples.'
+	    print 'have processed ', i + 1, ' samples.'
 
-    tys = sorted(tys.iteritems(),key=lambda asd:asd[1], reverse=True)
+    tys = sorted(tys.iteritems(), key=lambda asd:asd[1], reverse=True)
     for ty in tys:
         print ty # show the sort of typhoons' wind
 
     tys_time = sorted(tys_time.iteritems(), key=lambda asd:asd[0], reverse=False)
     for ty in tys_time:
-        f.write(str(ty)+'\n') # record all result by time
+        f.write(str(ty) + '\n') # record all result by time
     f.close()
