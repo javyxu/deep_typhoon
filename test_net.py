@@ -14,7 +14,7 @@ if __name__ == '__main__':
     net = Net() 
     net.load_state_dict(torch.load(path_ + '/net_relu.pth')) # your net
 
-    testset = ImageFolder(path_ + '/Work/srccode/deep_typhoon/test_set/', transform) # your test set
+    testset = ImageFolder(path_ + '/test_set/', transform) # your test set
 
     f = open(path_ + '/result_relu.txt','w') # where to write answer
 
@@ -39,7 +39,7 @@ if __name__ == '__main__':
         else :
             tys[tid] = wind
             
-        tid_time = name[0] + '_' + name[1] + '_' + name[2] + '_' + name[3]
+        tid_time = name[0] + '_' + name[1] + '_' + name[2] + '_' + name[3] + '_' + name[4] + '_' + name[5]
         tys_time[tid_time] = wind
         
         if i % 100 == 99 :

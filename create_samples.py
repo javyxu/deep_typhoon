@@ -52,13 +52,13 @@ def cut_pics(p): # only reserve central area
     p = p.crop(box)
     return p
 
-def merge_pics(p1,p2): # red-channel:6-hour earlier pic, green-channel:current pic
+def merge_pics(p1, p2): # red-channel:6-hour earlier pic, green-channel:current pic
                        # blue-channel:useless/unmeaning
     p1 = p1.convert('RGB')
     p2 = p2.convert('RGB')
     r,_,_ = p1.split()
     _,g,b = p2.split()
-    im = Image.merge('RGB',(r, g, b))
+    im = Image.merge('RGB', (r, g, b))
     return im
 
 def create_sample(source_dir, fname_1, fname_2, target_dir): # combine two raw images to a legal sample for our CNN
@@ -75,12 +75,13 @@ def create_sample(source_dir, fname_1, fname_2, target_dir): # combine two raw i
     try:
         img_1 = Image.open(complete_fname_1)
         img_2 = Image.open(complete_fname_2)
+
+        img_1 = cut_pics(img_1)
+        img_2 = cut_pics(img_2)
     except Exception as e:
         print e
         return None
     
-    img_1 = cut_pics(img_1)
-    img_2 = cut_pics(img_2)
     im = merge_pics(img_1, img_2)
 
     save_file(im,fname_2, target_dir)
@@ -104,36 +105,35 @@ if __name__ == '__main__':
     oversample = True
 
     for root, _, fnames in sorted(os.walk(raw_dir)):
+        fnames = sorted(fnames)
+        boundary = int(len(fnames) * 0.8) # 80% samples as train set and 20% samples as test set
 
-	fnames = sorted(fnames)
-	boundary = int(len(fnames) * 0.8) # 80% samples as train set and 20% samples as test set
-
-	for i in range(1, boundary): # create train set
-	    
-	    info = create_sample(root, fnames[i-1], fnames[i], train_root)
-	    if info:
-            print info
-            if count > 30000 :
+        for i in range(1, boundary):# create train set
+            info = create_sample(root, fnames[i-1], fnames[i], train_root)
+            if info:
+                print info
+            
+            if count > 30000:
                 print 'Exceed the upper limit of a single file.'
                 break
-  
-	    if i % 100 == 99 :
-	        print 'have processed ', i + 1,' files.'
-	        
-	print 'items in train set: ', count
-	count = 0
+    
+            if i % 100 == 99:
+                print 'have processed ', i + 1,' files.'
+                
+        print 'items in train set: ', count
+        count = 0
 
-	for i in range(boundary, len(fnames)): # create test set
-	    
-	    info = create_sample(root, fnames[i-1], fnames[i], test_root)
+        for i in range(boundary, len(fnames)): # create test set
+            
+            info = create_sample(root, fnames[i - 1], fnames[i], test_root)
             if info:
                 print info
                     
-            if count > 30000 :
+            if count > 30000:
                 print 'Exceed the upper limit of a single file.'
                 break
-  
-	    if i % 100 == 99 :
-	        print 'have processed ', i + 1,' files.'
+    
+            if i % 100 == 99:
+                print 'have processed ', i + 1,' files.'
           
         print 'items in test set: ', count

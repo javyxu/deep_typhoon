@@ -29,12 +29,12 @@ if __name__ == '__main__':
 	
     path_ = os.path.abspath('.')
 
-    trainset = ImageFolder(path_ + '/Work/srccode/deep_typhoon/train_set/', transform)
+    trainset = ImageFolder(path_ + '/train_set/', transform)
 
     # trainloader = torch.utils.data.DataLoader(trainset, batch_size=8,
     #                                           shuffle=True, num_workers=2)
     trainloader = torch.utils.data.DataLoader(trainset)
-    testset = ImageFolder(path_ + '/Work/srccode/deep_typhoon/test_set/', transform)
+    testset = ImageFolder(path_ + '/test_set/', transform)
 
     net = Net()
     init.xavier_uniform(net.conv1.weight.data, gain=1)
