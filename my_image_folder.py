@@ -18,12 +18,13 @@ def make_dataset(dirt):
     images = []
     if not os.path.isdir(dirt):
         return None
+        
     for root, _, fnames in sorted(os.walk(dirt)):
         for fname in fnames:
-            # if is_image_file(fname):
-            path = os.path.join(root, fname)
-            item = (path, fname)
-            images.append(item)
+            if is_image_file(fname):
+                path = os.path.join(root, fname)
+                item = (path, fname)
+                images.append(item)
 
     return images
 
