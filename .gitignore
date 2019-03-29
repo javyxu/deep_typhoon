@@ -1,2 +1,7 @@
 .DS_Store
 *.pyc
+test_set
+train_set
+tys_raw
+net_relu.pth
+result_relu.txt
