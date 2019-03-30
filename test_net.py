@@ -16,8 +16,6 @@ if __name__ == '__main__':
 
     testset = ImageFolder(path_ + '/test_set/', transform) # your test set
 
-    f = open(path_ + '/result_relu.txt','w') # where to write answer
-
     tys = dict() # map typhoon to its max wind
     tys_time = dict() # map typhoon-time to wind
 
@@ -49,6 +47,8 @@ if __name__ == '__main__':
         print(ty) # show the sort of typhoons' wind
 
     tys_time = sorted(tys_time.items(), key=lambda asd:asd[0], reverse=False)
-    for ty in tys_time:
-        f.write(str(ty) + '\n') # record all result by time
-    f.close()
+
+    # where to write answer
+    with open(path_ + '/result_relu.txt', 'w') as f:
+        for ty in tys_time:
+            f.write(str(ty) + '\n') # record all result by time

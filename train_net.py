@@ -11,8 +11,8 @@ from my_image_folder import ImageFolder
 
 def testset_loss(dataset, network):
 
-    # loader = torch.utils.data.DataLoader(dataset, batch_size=1, num_workers=2)
-    loader = torch.utils.data.DataLoader(dataset)
+    loader = torch.utils.data.DataLoader(dataset, batch_size=1, num_workers=2)
+    # loader = torch.utils.data.DataLoader(dataset)
 
     all_loss = 0.0
     for i, data in enumerate(loader, 0):
@@ -30,16 +30,20 @@ if __name__ == '__main__':
 
     trainset = ImageFolder(path_ + '/train_set/', transform)
 
-    # trainloader = torch.utils.data.DataLoader(trainset, batch_size=8,
-    #                                           shuffle=True, num_workers=2)
-    trainloader = torch.utils.data.DataLoader(trainset)
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=8,
+                                              shuffle=True, num_workers=2)
+    # trainloader = torch.utils.data.DataLoader(trainset)
     testset = ImageFolder(path_ + '/test_set/', transform)
 
     net = Net()
-    init.xavier_uniform(net.conv1.weight.data, gain=1)
-    init.constant(net.conv1.bias.data, 0.1)
-    init.xavier_uniform(net.conv2.weight.data, gain=1)
-    init.constant(net.conv2.bias.data, 0.1)
+    # init.xavier_uniform(net.conv1.weight.data, gain=1)
+    # init.constant(net.conv1.bias.data, 0.1)
+    # init.xavier_uniform(net.conv2.weight.data, gain=1)
+    # init.constant(net.conv2.bias.data, 0.1)
+    init.xavier_normal_(net.conv1.weight.data, gain=1)
+    init.constant_(net.conv1.bias.data, 0.1)
+    init.xavier_normal_(net.conv2.weight.data, gain=1)
+    init.constant_(net.conv2.bias.data, 0.1)
     #net.load_state_dict(torch.load(path_+'net_relu.pth')) 
     print(net)
 
@@ -55,7 +59,7 @@ if __name__ == '__main__':
 
             optimizer.zero_grad()
 
-            outputs = net(inputs)   
+            outputs = net(inputs)
             loss = criterion(outputs, labels.float())
             loss.backward()
             optimizer.step()

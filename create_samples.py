@@ -41,14 +41,15 @@ def if_match(f1, f2): # match : f1 is 6-hour earlier than f2, and they are same 
     date2 = tname2[1]
     h1 = date1[len(date1) - 1]
     h2 = date2[len(date2) - 1]
-    # the time end with 4 kinds of number : 00,06,12,18
-    if (h1 == '0' and h2 == '6')or(h1=='6' and h2=='2')or(h1=='2' and h2=='8')or(h1=='8' and h2=='0'):
+    # the time end with 4 kinds of number : 00, 06, 12, 18
+    if (h1 == '0' and h2 == '6') or (h1=='6' and h2=='2') or (h1=='2' and h2=='8') or (h1=='8' and h2=='0'):
         return True
     else :
         return False
 
 def cut_pics(p): # only reserve central area
-    box = (128, 128, 384, 384)
+    # box = (128, 128, 384, 384)
+    box = (0, 0, 512, 512)
     p = p.crop(box)
     return p
 
@@ -84,7 +85,7 @@ def create_sample(source_dir, fname_1, fname_2, target_dir): # combine two raw i
     
     im = merge_pics(img_1, img_2)
 
-    save_file(im,fname_2, target_dir)
+    save_file(im, fname_2, target_dir)
 
 
 if __name__ == '__main__':
