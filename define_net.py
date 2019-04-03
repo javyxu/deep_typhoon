@@ -1,6 +1,7 @@
 from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
 
 class Net(nn.Module):
     def __init__(self):
