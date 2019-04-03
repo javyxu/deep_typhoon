@@ -59,6 +59,7 @@ if __name__ == '__main__':
             inputs, labels = Variable(inputs), Variable(labels)
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
             inputs = inputs.to(device)
+            labels = labels.to(device)
 
             optimizer.zero_grad()
 
