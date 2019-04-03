@@ -46,6 +46,8 @@ class Net(nn.Module):
         # x = F.relu(self.fc2(x))
         # x = self.fc3(x)
         # ### first
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        x = x.to(device)
         x = self.pool1(F.relu(self.conv1(x))) # better than sigmoid/tanh
         x = self.pool2(F.relu(self.conv2(x))) # better than sigmoid/tanh
         x = self.pool3(F.relu(self.conv3(x))) # better than sigmoid/tanh
