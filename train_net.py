@@ -57,6 +57,8 @@ if __name__ == '__main__':
         for i, data in enumerate(trainloader, 0):
             inputs, labels = data
             inputs, labels = Variable(inputs), Variable(labels)
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            inputs = inputs.to(device)
 
             optimizer.zero_grad()
 
