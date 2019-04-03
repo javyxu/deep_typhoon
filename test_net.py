@@ -7,6 +7,8 @@ from my_transform import transform
 from define_net import Net
 from torch.autograd import Variable
 
+import numpy as np
+
 if __name__ == '__main__':
         
     path_ = os.path.abspath('.')
@@ -18,9 +20,20 @@ if __name__ == '__main__':
 
     tys = dict() # map typhoon to its max wind
     tys_time = dict() # map typhoon-time to wind
+    predictions = list()
+    targets = list()
+
+    #########
+    # normal = 20
+    # small = 33
+    # significant0 = 63
+    # significant1 = 82
+    # expensive = 95
+    # devastating = 112
+    # catastrophic0 = 136
+    # catastrophic1 = 137
 
     for i in range(0, testset.__len__()):
-        
         image, actual = testset.__getitem__(i)
         image = image.expand(1, image.size(0), image.size(1), image.size(2)) # a batch with 1 sample
         name = testset.__getitemName__(i)
@@ -38,8 +51,10 @@ if __name__ == '__main__':
             
         tid_time = name[0] + '_' + name[1] + '_' + name[2] + '_' + name[3] + '_' + name[4] + '_' + name[5]
         tys_time[tid_time] = wind
+        predictions.append(float(wind))
+        targets.append(float(name[4]))
         
-        if i % 100 == 99 :
+        if i % 100 == 99:
             print('have processed ' + str(i + 1) + ' samples.')
 
     tys = sorted(tys.items(), key=lambda asd:asd[1], reverse=True)
@@ -47,6 +62,10 @@ if __name__ == '__main__':
         print(ty) # show the sort of typhoons' wind
 
     tys_time = sorted(tys_time.items(), key=lambda asd:asd[0], reverse=False)
+    
+
+    res_error = np.sqrt(((np.asarray(predictions) - np.asarray(targets)) ** 2).mean())
+    print(res_error)
 
     # where to write answer
     with open(path_ + '/result_relu.txt', 'w') as f:

@@ -11,8 +11,8 @@ from my_image_folder import ImageFolder
 
 def testset_loss(dataset, network):
 
-    loader = torch.utils.data.DataLoader(dataset, batch_size=1, num_workers=2)
-    # loader = torch.utils.data.DataLoader(dataset)
+    # loader = torch.utils.data.DataLoader(dataset, batch_size=1, num_workers=2)
+    loader = torch.utils.data.DataLoader(dataset)
 
     all_loss = 0.0
     for i, data in enumerate(loader, 0):
@@ -30,9 +30,9 @@ if __name__ == '__main__':
 
     trainset = ImageFolder(path_ + '/train_set/', transform)
 
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=8,
-                                              shuffle=True, num_workers=2)
-    # trainloader = torch.utils.data.DataLoader(trainset)
+    # trainloader = torch.utils.data.DataLoader(trainset, batch_size=8,
+    #                                           shuffle=True, num_workers=2)
+    trainloader = torch.utils.data.DataLoader(trainset)
     testset = ImageFolder(path_ + '/test_set/', transform)
 
     net = Net()

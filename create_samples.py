@@ -48,8 +48,8 @@ def if_match(f1, f2): # match : f1 is 6-hour earlier than f2, and they are same 
         return False
 
 def cut_pics(p): # only reserve central area
-    # box = (128, 128, 384, 384)
-    box = (0, 0, 512, 512)
+    box = (128, 128, 384, 384)
+    # box = (0, 0, 512, 512)
     p = p.crop(box)
     return p
 
