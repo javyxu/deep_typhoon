@@ -36,6 +36,7 @@ if __name__ == '__main__':
     testset = ImageFolder(path_ + '/test_set/', transform)
 
     net = Net()
+    net.cuda()
     # init.xavier_uniform(net.conv1.weight.data, gain=1)
     # init.constant(net.conv1.bias.data, 0.1)
     # init.xavier_uniform(net.conv2.weight.data, gain=1)

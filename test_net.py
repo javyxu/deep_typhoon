@@ -14,6 +14,7 @@ if __name__ == '__main__':
     path_ = os.path.abspath('.')
 
     net = Net() 
+    net.cuda()
     net.load_state_dict(torch.load(path_ + '/net_relu.pth')) # your net
 
     testset = ImageFolder(path_ + '/test_set/', transform) # your test set
@@ -22,16 +23,6 @@ if __name__ == '__main__':
     tys_time = dict() # map typhoon-time to wind
     predictions = list()
     targets = list()
-
-    #########
-    # normal = 20
-    # small = 33
-    # significant0 = 63
-    # significant1 = 82
-    # expensive = 95
-    # devastating = 112
-    # catastrophic0 = 136
-    # catastrophic1 = 137
 
     for i in range(0, testset.__len__()):
         image, actual = testset.__getitem__(i)
